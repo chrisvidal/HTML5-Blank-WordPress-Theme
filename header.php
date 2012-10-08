@@ -19,11 +19,11 @@
 </head>
 <body <?php body_class(); ?>>
 
-	<!-- Header -->
+<div id="wrapper">
+
 	<header>
 	
-		<!-- Wrapper -->
-		<div class="wrapper">
+		<div class="container">
 		
 			<!-- Logo -->
 			<div id="logo">
@@ -35,17 +35,18 @@
 			
 			<!-- Nav -->
 			<nav>
-				<?php wp_nav_menu(array('theme_location' => 'header-menu', 'items_wrap' => '<ul>%3$s</ul>')); ?>
+				<?php wp_nav_menu(array('theme_location' => 'header-menu', 'menu_id' => 'nav', 'walker' => new Roots_Nav_Walker() ));  //, 'items_wrap' => '<ul>%3$s</ul>'?>
+
 			</nav>
 			<!-- /Nav -->
 			
 			<br class="clear">
 			
 		</div>
-		<!-- /Wrapper -->
+		<!-- /container -->
 	
 	</header>
 	<!-- /Header -->
 	
 	<!-- Wrapper -->
-	<div class="wrapper">
+	<div id="" class="container">

@@ -1,7 +1,9 @@
+<?php /* Template Name: Home Page */ ?>
+
 <?php get_header(); ?>
 	
 	<!-- Section -->
-	<section>
+	<section class="home">
 	
 		<h1><?php //the_title(); ?></h1>
 	
@@ -10,13 +12,9 @@
 		<!-- Article -->
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 		
-			<?php the_content(); ?>
-			
-			<?php //comments_template( '', true ); // Remove if you don't want comments ?>
+			<?php echo get_the_content(); ?>
 			
 			<br class="clear">
-			
-			<?php //edit_post_link(); ?>
 			
 		</article>
 		<!-- /Article -->
@@ -38,6 +36,4 @@
 	</section>
 	<!-- /Section -->
 	
-<?php get_sidebar(); ?>
-
 <?php get_footer(); ?>

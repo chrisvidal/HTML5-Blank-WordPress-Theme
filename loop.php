@@ -28,7 +28,7 @@
 		
 		<br class="clear">
 		
-		<?php edit_post_link(); ?>
+		<?php //edit_post_link(); ?>
 		
 	</article>
 	<!-- /Article -->

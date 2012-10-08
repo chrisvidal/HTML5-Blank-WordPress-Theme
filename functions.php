@@ -128,6 +128,134 @@ function register_html5_menu()
     ));
 }
 
+
+/**
+ * Cleaner walker for wp_nav_menu()
+ *
+ * Walker_Nav_Menu (WordPress default) example output:
+ *   <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8"><a href="/">Home</a></li>
+ *   <li id="menu-item-9" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-9"><a href="/sample-page/">Sample Page</a></l
+ *
+ * Roots_Nav_Walker example output:
+ *   <li class="menu-home"><a href="/">Home</a></li>
+ *   <li class="menu-sample-page"><a href="/sample-page/">Sample Page</a></li>
+ */
+class Roots_Nav_Walker extends Walker_Nav_Menu {
+  function check_current($classes) {
+    return preg_match('/(current[-_])|active|dropdown/', $classes);
+  }
+
+  function start_lvl(&$output, $depth) {
+    if (current_theme_supports('bootstrap-top-navbar')) {
+      $output .= "\n<ul class=\"dropdown-menu\">\n";
+    } else {
+      $output .= "\n<ul class=\"sub-menu\">\n";
+    }
+  }
+
+  function start_el(&$output, $item, $depth, $args) {
+    global $wp_query;
+    $indent = ($depth) ? str_repeat("\t", $depth) : '';
+
+    $slug = sanitize_title($item->title);
+    $id = 'menu-' . $slug;
+
+    $class_names = $value = '';
+    $li_attributes = '';
+    $classes = empty($item->classes) ? array() : (array) $item->classes;
+
+    $classes = array_filter($classes, array(&$this, 'check_current'));
+
+    if (current_theme_supports('bootstrap-top-navbar')) {
+      if ($args->has_children) {
+        $classes[]      = 'dropdown';
+        $li_attributes .= ' data-dropdown="dropdown"';
+      }
+    }
+
+    if ($custom_classes = get_post_meta($item->ID, '_menu_item_classes', true)) {
+      foreach ($custom_classes as $custom_class) {
+        $classes[] = $custom_class;
+      }
+    }
+    
+    $description = '';
+    if ( ! empty ( $item->description ) and 0 == $depth ) {
+        $description = '<span>' . esc_attr( $item->description ) . '</span>';
+        $classes[] = 'item-' . esc_attr( $item->description );  
+    }            
+    
+
+    $class_names = join(' ', apply_filters('nav_menu_css_class', array_filter($classes), $item, $args));    
+    $class_names = $class_names ? ' class="' . $id . ' ' . esc_attr($class_names) . '"' : ' class="' . $id . '"';
+
+    $output .= $indent . '<li' . $class_names . '>';
+
+    $attributes  = ! empty($item->attr_title) ? ' title="'  . esc_attr($item->attr_title) .'"' : '';
+    $attributes .= ! empty($item->target)     ? ' target="' . esc_attr($item->target    ) .'"' : '';
+    $attributes .= ! empty($item->xfn)        ? ' rel="'    . esc_attr($item->xfn       ) .'"' : '';
+    $attributes .= ! empty($item->url)        ? ' href="'   . esc_attr($item->url       ) .'"' : '';
+    if (current_theme_supports('bootstrap-top-navbar')) {
+      $attributes .= ($args->has_children)    ? ' class="dropdown-toggle" data-toggle="dropdown"' : '';
+    }
+
+    $item_output  = $args->before;
+    $item_output .= '<a'. $attributes .'>';
+
+
+    // insert description for top level elements only you may change this
+    $item_output .= $description;
+
+
+    $item_output .= $args->link_before . apply_filters('the_title', $item->title, $item->ID) . $args->link_after;
+    if (current_theme_supports('bootstrap-top-navbar')) {
+      $item_output .= ($args->has_children) ? ' <b class="caret"></b>' : '';
+    }
+    $item_output .= '</a>';
+    $item_output .= $args->after;
+
+    $output .= apply_filters('walker_nav_menu_start_el', $item_output, $item, $depth, $args);
+  }
+
+  function display_element($element, &$children_elements, $max_depth, $depth = 0, $args, &$output) {
+    if (!$element) { return; }
+
+    $id_field = $this->db_fields['id'];
+
+    if (is_array($args[0])) {
+      $args[0]['has_children'] = !empty($children_elements[$element->$id_field]);
+    } elseif (is_object($args[0])) {
+      $args[0]->has_children = !empty($children_elements[$element->$id_field]);
+    }
+
+    $cb_args = array_merge(array(&$output, $element, $depth), $args);
+    call_user_func_array(array(&$this, 'start_el'), $cb_args);
+
+    $id = $element->$id_field;
+
+    if (($max_depth == 0 || $max_depth > $depth+1) && isset($children_elements[$id])) {
+      foreach ($children_elements[$id] as $child) {
+        if (!isset($newlevel)) {
+          $newlevel = true;
+          $cb_args = array_merge(array(&$output, $depth), $args);
+          call_user_func_array(array(&$this, 'start_lvl'), $cb_args);
+        }
+        $this->display_element($child, $children_elements, $max_depth, $depth + 1, $args, $output);
+      }
+      unset($children_elements[$id]);
+    }
+
+    if (isset($newlevel) && $newlevel) {
+      $cb_args = array_merge(array(&$output, $depth), $args);
+      call_user_func_array(array(&$this, 'end_lvl'), $cb_args);
+    }
+
+    $cb_args = array_merge(array(&$output, $element, $depth), $args);
+    call_user_func_array(array(&$this, 'end_el'), $cb_args);
+  }
+}
+
+
 // Remove the <div> surrounding the dynamic navigation to cleanup markup
 function my_wp_nav_menu_args($args = '')
 {
@@ -299,7 +427,7 @@ add_filter('body_class', 'add_slug_to_body_class'); // Add slug to body class (S
 add_filter('widget_text', 'do_shortcode'); // Allow shortcodes in Dynamic Sidebar
 add_filter('widget_text', 'shortcode_unautop'); // Remove <p> tags in Dynamic Sidebars (better!)
 add_filter('wp_nav_menu_args', 'my_wp_nav_menu_args'); // Remove surrounding <div> from WP Navigation
-add_filter('nav_menu_css_class', 'my_css_attributes_filter', 100, 1); // Remove Navigation <li> injected classes
+// add_filter('nav_menu_css_class', 'my_css_attributes_filter', 100, 1); // Remove Navigation <li> injected classes
 add_filter('nav_menu_item_id', 'my_css_attributes_filter', 100, 1); // Remove Navigation <li> injected ID
 add_filter('page_css_class', 'my_css_attributes_filter', 100, 1); // Remove Navigation <li> Page ID's
 add_filter('the_category', 'remove_category_rel_from_category_list'); // Remove invalid rel attribute
@@ -333,18 +461,18 @@ function create_post_type_html5()
     register_post_type('html5-blank', // Register Custom Post Type
         array(
         'labels' => array(
-            'name' => __('HTML5 Blank Custom Post', 'html5blank'), // Rename these to suit
-            'singular_name' => __('HTML5 Blank Custom Post', 'html5blank'),
+            'name' => __('Magazine Issues', 'html5blank'), // Rename these to suit
+            'singular_name' => __('BM Issues', 'html5blank'),
             'add_new' => __('Add New', 'html5blank'),
-            'add_new_item' => __('Add New HTML5 Blank Custom Post', 'html5blank'),
+            'add_new_item' => __('Add New issue', 'html5blank'),
             'edit' => __('Edit', 'html5blank'),
-            'edit_item' => __('Edit HTML5 Blank Custom Post', 'html5blank'),
-            'new_item' => __('New HTML5 Blank Custom Post', 'html5blank'),
-            'view' => __('View HTML5 Blank Custom Post', 'html5blank'),
-            'view_item' => __('View HTML5 Blank Custom Post', 'html5blank'),
-            'search_items' => __('Search HTML5 Blank Custom Post', 'html5blank'),
-            'not_found' => __('No HTML5 Blank Custom Posts found', 'html5blank'),
-            'not_found_in_trash' => __('No HTML5 Blank Custom Posts found in Trash', 'html5blank')
+            'edit_item' => __('Edit issue', 'html5blank'),
+            'new_item' => __('New issue', 'html5blank'),
+            'view' => __('View issues', 'html5blank'),
+            'view_item' => __('View issue', 'html5blank'),
+            'search_items' => __('Search an issue', 'html5blank'),
+            'not_found' => __('No issues found', 'html5blank'),
+            'not_found_in_trash' => __('No issues found in Trash', 'html5blank')
         ),
         'public' => true,
         'hierarchical' => true, // Allows your posts to behave like Hierarchy Pages
