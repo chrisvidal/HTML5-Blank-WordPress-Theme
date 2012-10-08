@@ -53,6 +53,33 @@ if (function_exists('add_theme_support'))
  * ========================================================================
  */
 
+// HTML5 Blank navigation
+function html5blank_nav()
+{
+	// wp_nav_menu(
+	// array(
+	// 	'theme_location'  => 'header-menu',
+	// 	'menu'            => '', 
+	// 	'container'       => 'div', 
+	// 	'container_class' => 'menu-{menu slug}-container', 
+	// 	'container_id'    => '',
+	// 	'menu_class'      => 'menu', 
+	// 	'menu_id'         => '',
+	// 	'echo'            => true,
+	// 	'fallback_cb'     => 'wp_page_menu',
+	// 	'before'          => '',
+	// 	'after'           => '',
+	// 	'link_before'     => '',
+	// 	'link_after'      => '',
+	// 	'items_wrap'      => '<ul>%3$s</ul>',
+	// 	'depth'           => 0,
+	// 	'walker'          => ''
+	// 	)
+	// );
+
+    wp_nav_menu(array('theme_location' => 'header-menu', 'menu_id' => 'nav', 'walker' => new Roots_Nav_Walker() ));  //, 'items_wrap' => '<ul>%3$s</ul>'
+}
+
 // Load Custom Theme Scripts using Enqueue
 function html5blank_scripts()
 {
@@ -96,7 +123,8 @@ function add_jquery_fallback()
 {
     $jqueryfallback = "<!-- Protocol Relative jQuery fall back if Google CDN offline -->";
     $jqueryfallback .= "<script>";
-    $jqueryfallback .= "window.jQuery || document.write('<script src='" . get_bloginfo('template_url') . "/js/jquery-1.8.2.min.js'><\/script>')";
+    #$jqueryfallback .= "window.jQuery || document.write('<script src='" . get_bloginfo('template_url') . "/js/jquery-1.8.2.min.js'><\/script>')";
+    $jqueryfallback .= "window.jQuery || document.write('<script src=\"" . get_bloginfo('template_url') . "/js/jquery-1.8.2.min.js\"><\/script>')";
     $jqueryfallback .= "</script>";
     echo $jqueryfallback;
 }
