@@ -11,6 +11,11 @@ License:		MIT
 License URI:	http://opensource.org/licenses/mit-license.php
 */
 
+/*
+  Used Colors:
+  - pink : #e6086c
+ */
+
 /* =============================================================================
    HTML5 Reset
    ========================================================================== */
@@ -129,7 +134,17 @@ License URI:	http://opensource.org/licenses/mit-license.php
 	         url('fonts/proximanova-extrabold-webfont.svg#proxima_nova_thbold') format('svg');
 	    font-weight: normal;
 	    font-style: normal;
+	}
 
+	@font-face {
+    font-family: 'RokkittRegular';
+    src: url('fonts/Rokkitt-webfont.eot');
+    src: url('fonts/Rokkitt-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/Rokkitt-webfont.woff') format('woff'),
+         url('fonts/Rokkitt-webfont.ttf') format('truetype'),
+         url('fonts/Rokkitt-webfont.svg#RokkittRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
 	}
 	
 	body {
@@ -151,11 +166,20 @@ License URI:	http://opensource.org/licenses/mit-license.php
 		font-weight:300;
 		line-height:18px;
 	}
+	section p {font-size: 14px;}
 	
 	p.copyright { float: left;}
 	p.contact-info { float: right;}
 
-
+	blockquote{ font-size: 18px; font-style: italic;  background:transparent;/*border-left:1em solid #eee;*/ border:none; margin:1.5em 1em 0.5em 1em; padding:.5em 1em;quotes:"\201C""\201D";}
+   	blockquote:before{color:#e6086c;content:open-quote;font-size:4em;line-height:.1em;margin-right:.15em;vertical-align:-.4em;}
+   	blockquote :first-child{/*display:inline;*/}
+   	blockquote :last-child{margin-bottom:0;}
+   	blockquote:after { content: close-quote; color:#e6086c;font-size:4em;line-height:.1em;margin-left:.15em;vertical-align:-.4em;}
+   	blockquote cite, cite {color: #e6086c; font-size: 14px; display: block; margin-top: 5px; padding-left: 100px;}
+ 	blockquote cite:before, cite:before { content: "\2014 \2009";}
+	.clearfix { display: block; }
+	.clearfix::after { clear: both; content: ' '; display: block; font-size: 0; line-height: 0; visibility: hidden; width: 0; height: 0; }
 /* =============================================================================
    Media Queries
    ========================================================================== */
@@ -200,7 +224,7 @@ License URI:	http://opensource.org/licenses/mit-license.php
 /* =============================================================================
    WordPress Core CSS Styles
    ========================================================================== */
-   
+   .centrer { text-align: center; }
    .alignnone {margin:5px 20px 20px 0;}
    .aligncenter,div.aligncenter {display:block;margin:5px auto 5px auto;}
    .alignright {float:right;margin:5px 0 20px 20px;}
@@ -281,13 +305,30 @@ License URI:	http://opensource.org/licenses/mit-license.php
 	.unit p { padding-top: 0px; padding-left: 0px; }
 	.unit h2 {padding-bottom: 0px; padding-left: 0px}
 
-	.one_third { width: 31.33333%; margin:2% 0 0 2%;}
-	
+	.one_third { width: 31.33333%; margin:0 0 0 2%;}
+	.two_third { width: 66.66666%; /*margin:2% 0 0 2%;*/}
+	.lastUnit { display: table-cell; float: none; _position: relative; _left: -3px; _margin-right: -3px; width: auto; }
+	.lastUnit::after {
+		content: " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ";
+		visibility: hidden;
+		clear: both;
+		height: 0 !important;
+		display: block;
+		line-height: 0;
+		}
+
+
+	h1,h2,h3,h4,h5,h6 { margin: 10px 0; }
+	h3 { color: #e6086c; }
 
 	section article { padding: 10px;}
 	.element {border: 1px solid #333;}
 
 	/* Menu */
+
+	#primary-log { position: relative; top: 0px; right: 0px; margin: 5px 0 0 0; padding: 0; text-align: right; float: right;}
+	#primary-log a { color: #333; }
+
 	nav { float: right;}
 
 	#nav  {list-style:none;list-style-image:none;margin:0;padding:0;}
@@ -337,7 +378,7 @@ License URI:	http://opensource.org/licenses/mit-license.php
 		font-size: 1.3em;
 		height: 60px;
 		text-transform: capitalize;
-		font-weight: bold;
+		font-weight: normal;
 	}
 	#nav li a span {
 		position: absolute;
@@ -367,57 +408,360 @@ License URI:	http://opensource.org/licenses/mit-license.php
 		font-family:'proxima_nova_light', "Helvetica Neue", Helvetica, Arial, sans-serif;
 		font-size: 3.4em;
 		line-height: 1.0em;
+		font-weight: normal;
 	}
 	#footer h2 span {
 		font-family:'proxima_nova_extrabold', "Helvetica Neue", Helvetica, Arial, sans-serif;
 	}
+
+	/* Page styles */
+	/* 2 column */
+	.divup-wrap { 
+	    overflow:hidden; 
+	    width: 100%;
+	    padding-top:50px;
+	} 
+
+	.divup-wrap .div-1 { width: 100%;}
+	.divup-wrap .div-2 { width: 0%;}
+	
+	.divup { 
+	    float:left;
+	    width:64%;
+	    margin-right:20px;
+	} 
+	.div-even { 
+		margin-top: 30px;
+	    margin-right:0; 
+	    width:32%;
+	}
+	.div-odd {	
+	}
+	
+	.divup h2 {margin-top: 50px;}
+	.divup h3 {margin-top: 30px;}
+
+	/* 4 columns styles */
+	/*#cspc-column-0{ 
+		-webkit-transform: rotate(-2deg);
+		-moz-transform: rotate(-2deg);
+		-o-transform: rotate(-2deg);
+		-ms-transform: rotate(-2deg);
+		transform: rotate(-2deg);  } 
+	#cspc-column-2 { 
+		-webkit-transform: rotate(-1deg);
+		-moz-transform: rotate(-1deg);
+		-o-transform: rotate(-1deg);
+		-ms-transform: rotate(-1deg);
+		transform: rotate(-1deg);  }   
+	#cspc-column-1 { 
+		-webkit-transform: rotate( 3deg);
+		-moz-transform: rotate( 3deg);
+		-o-transform: rotate( 3deg);
+		-ms-transform: rotate( 3deg);
+		transform: rotate( 3deg);  }   
+	#cspc-column-3{ 
+		-webkit-transform: rotate( 1deg);
+		-moz-transform: rotate( 1deg);
+		-o-transform: rotate( 1deg);
+		-ms-transform: rotate( 1deg);
+		transform: rotate( 1deg);  }   */
 
 	/* Homepage styles */
 
 	section.home h2 { float: left; padding-top: 30px;}
 	section.home img { margin-bottom: 0px;}
 	section.home article {padding-bottom: 0px;}
-
 	section.home h2, section.home h2 span {
-		font-family: Candara, "Helvetica Neue", Helvetica, Arial, sans-serif;
+		/*font-family: "RokkittRegular", "Helvetica Neue", Helvetica, Arial, sans-serif;
 		color: #999999;
 		line-height: 1.5em;
-		font-weight: 700;		
+		font-weight: 700;*/
 	}
 	
-	section.home h2, section.home h2 span strong {
-		color: #e6086c;
-	}
+	section.home h2, section.home h2 span strong { color: #e6086c;	}
 
-	.rw-sentence {
-		margin: 0;
-		text-align: left;
-	}
+	
+	/* Subscription page styles */
+	
+	h2.offer_title {color: #e6086c;} 
 
-	.rw-sentence span {
-		white-space: nowrap;
-		font-size: 1.5em;
-		line-height: 1.5em;
+	.offer_abonnement {
+		min-height: 230px;
+		background: url("img/be-cover-website.jpg") 0px center no-repeat;
+		padding-left: 395px;
+		margin: 62px auto;
+		background-size: 360px;
+	}
+	.txt_grey { color: #747B83; /*#999;*/ }
+	.txt12 {line-height: 120%; font-size: 1.2rem;}
+	.caps {text-transform: uppercase;}
+	.block { display: block;}
+	.offer_abonnement .formule:first-child { padding-top: 0; border-top: 0;}
+	.offer_abonnement .formule { padding-top: 16px; margin-bottom: 16px; border-top: 1px solid #EEF1F5;	}
+.offer_abonnement .formule .integrale, .offer_abonnement .formule .numerique, .offer_abonnement .formule .tous_numerique, .offer_abonnement .formule .tous_papier { background: url("img/media_supports.png") left 30px no-repeat; }
+.offer_abonnement .formule .numerique { background-position: left -215px; }
+.offer_abonnement .formule h3.grid_6 { width:304px; display: inline-block; min-height: 75px; letter-spacing: -0.08em; margin-left: 0; clear: left; box-sizing: border-box;
+float: left;
+position: relative;
+margin-right: 8px;}
+.offer_abonnement .formule p.grid_5 {width: 209px; margin-top: 8px;margin-right: 0; clear: right;box-sizing: border-box;
+float: left;
+position: relative;
+margin-left: 8px;
+}
+
+.offer_abonnement .grid_2 {width: 75px;margin-right: 0; clear: right; box-sizing: border-box;
+display: inline;
+float: left;
+position: relative;
+margin-top: 8px; }
+
+.offer_abonnement .prix {
+	display: inline;
+font-size: 24px;
+line-height: 24px;
+margin-top: -8px;
+color: #e6086c;
+font-weight: bold;
+width: 129px;
+}
+.offer_abonnement .prix sup {
+line-height: 10px;
+font-size: 50%;
+top: -1em;
+}
+.offer_abonnement .prix del, .offer_abonnement .prix em {
+font-size: 13px;
+line-height: 15px;
+font-weight: normal;
+font-style: normal;
+}
+#btn_membership_1, #btn_membership_2 { }
+
+	/* Welcome page styles */
+	/*#left-sidebar {float: left; width: 312px;margin-right: 10px; min-height: 300px; position: relative;}*/
+	#left-sidebar a {color:#333;}
+	#left-sidebar .widgettitle {
+		padding: 0;
+		margin-top: 0px;
+		color: #777;
+		font-size: 22px;
 		font-weight: normal;
-		color: #999999;
+		font-style: normal;
+		font-family: 'proxima_nova_light';
+		}
+	#bm-login-widget {}
+	#bm_summary_name {font-weight: bold;font-size: 120%;}
+	#bm_summary_registration_date {}
+	#bm_summary_payment_date {}
+	#bm_summary_logout {}
+	
+	#bissue_listing { margin-top: 15px;}
+	.bissue-item { padding-top:5px; border-bottom: 1px dashed #777; }
+
+	.bissue-item-subtitle {
+
+	}
+
+
+	/* homepage issue */
+	#issue { position: relative; width: 190px; height: 190px; background: white;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	-ms-border-radius: 50%;
+	-o-border-radius: 50%;
+	border-radius: 50%;
+	border: 1px solid #e8e8e8;
+	text-align:center;
+	top: 240px;
+	left: 750px;
+	}
+
+	#issue .inner { position: absolute; width: 100%; height: 100%;}
+	#issue .inner p { padding-top:25px; font-family: "proxima_nova_regular", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+	#issue .button, .button {
+	   border-top: 1px solid #000000;
+	   background: #000000;
+	   background: -webkit-gradient(linear, left top, left bottom, from(#000000), to(#000000));
+	   background: -webkit-linear-gradient(top, #000000, #000000);
+	   background: -moz-linear-gradient(top, #000000, #000000);
+	   background: -ms-linear-gradient(top, #000000, #000000);
+	   background: -o-linear-gradient(top, #000000, #000000);
+	   margin: 5px 0;
+	   padding: 5px 10px;
+	   -webkit-border-radius: 8px;
+	   -moz-border-radius: 8px;
+	   -ms-border-radius: 8px;
+	   -o-border-radius: 8px;
+	   border-radius: 8px;
+	   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+	   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+	   -ms-box-shadow: rgba(0,0,0,1) 0 1px 0;
+	   -o-box-shadow: rgba(0,0,0,1) 0 1px 0;
+	   box-shadow: rgba(0,0,0,1) 0 1px 0;
+	   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+	   color: white;
+	   font-size: 13px;
+	   text-decoration: none;
+	   vertical-align: middle;
+   	}
+	#issue .button:hover {
+	   border-top-color: #000000;
+	   background: #000000;
+	   color: #ccc;
+	}
+	#issue .button:active {
+	   border-top-color: #000000;
+	   background: #000000;
+   	}
+
+	/* homepage bicyle animation */
+	#hmpg-bicyle { position: relative; float: right; left: -180px; width: 176px; height: 391px; }
+	#hmpg-bicyle-frame { position: absolute; width:176px;height:391px; z-index: 10; top:-20px;}
+	.animate-wheel-rotating-normal {
+		-webkit-animation: wheelrotating 8s linear infinite;
+		-moz-animation: wheelrotating 8s linear infinite;
+		-ms-animation: wheelrotating 8s linear infinite;
+		-o-animation: wheelrotating 8s linear infinite;
+		animation: wheelrotating 8s linear infinite;
+	}
+	.animate-wheel-rotating-fast {
+		-webkit-animation: wheelrotating 4s linear infinite;
+		-moz-animation: wheelrotating 4s linear infinite;
+		-ms-animation: wheelrotating 4s linear infinite;
+		-o-animation: wheelrotating 4s linear infinite;
+		animation: wheelrotating 4s linear infinite;
+	}
+	.animate-translate-left {
+		-webkit-animation: translateleft 4s linear infinite;
+		-moz-animation: translateleft 4s linear infinite;
+		-ms-animation: translateleft 4s linear infinite;
+		-o-animation: translateleft 4s linear infinite;
+		animation: translateleft 4s linear infinite;
+	}
+
+	#hmpg-bicyle-big { 
+		position: absolute; left: -85px; top: 210px;  z-index: 9;
+		
+	}
+	#hmpg-bicyle-small { 
+		position: absolute; left: 88px;	top: 323px; z-index: 9;		
+		}
+
+	@-webkit-keyframes translateleft {
+	   0% { -webkit-transform: translate(0px, 0px); opacity: 0.1; } 
+	   15% { opacity: 1;}
+	   85% { opacity: 0.8;}
+	   100% { -webkit-transform: translate(-650px, 0px); opacity: 0.1;}
+	}
+
+	@-moz-keyframes translateleft {
+	   0% { -moz-transform: translate(0px, 0px); opacity: 0.1; } 
+	   15% { opacity: 1;}
+	   85% { opacity: 0.8;}
+	   100% { -moz-transform: translate(-650px, 0px); opacity: 0.1;}
+	}
+
+	@-ms-keyframes translateleft {
+	   0% { -ms-transform: translate(0px, 0px); opacity: 0.1; } 
+	   15% { opacity: 1;}
+	   85% { opacity: 0.8;}
+	   100% { -ms-transform: translate(-650px, 0px); opacity: 0.1;}
+	}
+
+	@-o-keyframes translateleft {
+	   0% { -o-transform: translate(0px, 0px); opacity: 0.1; } 
+	   15% { opacity: 1;}
+	   85% { opacity: 0.8;}
+	   100% { -o-transform: translate(-650px, 0px); opacity: 0.1;}
+	}
+
+	@keyframes translateleft {
+	   0% { transform: translate(0px, 0px); opacity: 0.1; } 
+	   15% { opacity: 1;}
+	   85% { opacity: 0.8;}
+	   100% { transform: translate(-650px, 0px); opacity: 0.1;}
+	}
+
+
+	@-webkit-keyframes bicyle {
+	    0% { -webkit-transform: rotate(-2deg); }
+	    50% { -webkit-transform: rotate(3deg); }
+	    100% { -webkit-transform: rotate(-2deg); }	    
+	}
+
+	@-webkit-keyframes wheelrotating {
+	    from{
+	        -webkit-transform: rotate(360deg);
+	    }
+	    to{
+	        -webkit-transform: rotate(0deg);
+	    }
+	}
+	@-moz-keyframes wheelrotating {
+	    from{
+	        -moz-transform: rotate(360deg);
+	    }
+	    to{
+	        -moz-transform: rotate(0deg);
+	    }
+	}
+	@-ms-keyframes wheelrotating {
+	    from{
+	        -ms-transform: rotate(360deg);
+	    }
+	    to{
+	        -ms-transform: rotate(0deg);
+	    }
+	}
+	@-o-keyframes wheelrotating {
+	    from{
+	        -o-transform: rotate(360deg);
+	    }
+	    to{
+	        -o-transform: rotate(0deg);
+	    }
+	}		
+	@keyframes wheelrotating {
+	    from{
+	        transform: rotate(360deg);
+	    }
+	    to{
+	        transform: rotate(0deg);
+	    }
+	}
+
+
+
+	/* homapge text animations */
+	.rw-sentence { margin: 0; text-align: left;	}
+	.rw-sentence * { font-family: "Candara", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+
+	.rw-sentence > span {
+		white-space: nowrap;
+		font-size: 1.3em;
+		line-height: 1.3em;		
+		color: #999999;			
+		font-weight: 700;
 	}
 
 	.rw-words {
 		display: inline;
-		text-indent: 10px;
-		font-weight: 700;
-		font-size: 2.2em;
-		line-height: 2.0em;
-	}
-
-	.rw-words-no-indent {
 		text-indent: 0px;
+		font-weight: 700;
+		font-size: 1.8em;
+		line-height: 1.8em;
 	}
 
-	.rw-words span{
+	.rw-words-no-indent { text-indent: 0px;}
+
+	.rw-sentence .rw-words span{
 		position: absolute;
 		opacity: 0;
-		overflow: hidden;
+		overflow: hidden;		
+		line-height: 1.7em;
+		font-size: 1.3em;
 		-webkit-transform-origin: 10% 75%;
 		-moz-transform-origin: 10% 75%;
 		-ms-transform-origin: 10% 75%;
@@ -432,49 +776,6 @@ License URI:	http://opensource.org/licenses/mit-license.php
 	    -ms-animation: rotateWordsSecond 18s linear infinite 0s;
 	    animation: rotateWordsSecond 18s linear infinite 0s;
 	}
-
-	.rw-words-2 span{
-	    -webkit-animation: rotateWordsSecond 15s linear infinite 0s;
-	    -moz-animation: rotateWordsSecond 15s linear infinite 0s;
-	    -o-animation: rotateWordsSecond 15s linear infinite 0s;
-	    -ms-animation: rotateWordsSecond 15s linear infinite 0s;
-	    animation: rotateWordsSecond 15s linear infinite 0s;
-	}
-
-	.rw-words-3 span{
-	    -webkit-animation: rotateWordsSecond 18s linear infinite 0s;
-	    -moz-animation: rotateWordsSecond 18s linear infinite 0s;
-	    -o-animation: rotateWordsSecond 18s linear infinite 0s;
-	    -ms-animation: rotateWordsSecond 18s linear infinite 0s;
-	    animation: rotateWordsSecond 18s linear infinite 0s;
-	}
-
-	.rw-words-4 span{
-	    -webkit-animation: rotateWordsSecond 21s linear infinite 0s;
-	    -moz-animation: rotateWordsSecond 21s linear infinite 0s;
-	    -o-animation: rotateWordsSecond 21s linear infinite 0s;
-	    -ms-animation: rotateWordsSecond 21s linear infinite 0s;
-	    animation: rotateWordsSecond 21s linear infinite 0s;
-	}
-
-
-	.rw-words-5 span{
-	    -webkit-animation: fadeWordsSecond 21s linear infinite 0s;
-	    -moz-animation: rotateWordsSecond 21s linear infinite 0s;
-	    -o-animation: rotateWordsSecond 21s linear infinite 0s;
-	    -ms-animation: rotateWordsSecond 21s linear infinite 0s;
-	    animation: rotateWordsSecond 21s linear infinite 0s;
-	}
-
-	.rw-words-6 span{
-	    -webkit-animation: fadeWordsSecond 21s linear infinite 0s;
-	    -moz-animation: rotateWordsSecond 21s linear infinite 0s;
-	    -o-animation: rotateWordsSecond 21s linear infinite 0s;
-	    -ms-animation: rotateWordsSecond 21s linear infinite 0s;
-	    animation: rotateWordsSecond 21s linear infinite 0s;
-	}
-
-
 
 	.rw-words span:nth-child(2) { 
 	    -webkit-animation-delay: 5s; 
@@ -501,7 +802,7 @@ License URI:	http://opensource.org/licenses/mit-license.php
 		/*color: #7a6b9d;*/
 	}
 	.rw-words span:nth-child(5) { 
-	    -webkit-animation-delay: 12s; 
+	    -webkit-animation-delay: 14s; 
 		-moz-animation-delay: 12s; 
 		-o-animation-delay: 12s; 
 		-ms-animation-delay: 12s; 

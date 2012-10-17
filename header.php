@@ -28,6 +28,22 @@
 	
 		<div class="container">
 		
+			<div id="primary-log" class="widget-area" role="complementary">
+				<ul class="xoxo">
+				<?php if ( is_user_logged_in() ) { ?>
+						<li id="logout" class="widget-container">
+							Welcome <?php echo S2MEMBER_CURRENT_USER_DISPLAY_NAME; ?> &nbsp; | &nbsp;
+							<a href="<?php echo S2MEMBER_LOGIN_WELCOME_PAGE_URL; ?>" title="My account">My account</a> &nbsp; | &nbsp;
+							<a href="<?php echo wp_logout_url( get_bloginfo('url') ); ?>" title="Log out">Log Out</a>
+						</li>
+				<?php } else{ ?>
+						<li id="login" class="widget-container">
+							<a href="<?php echo S2MEMBER_LOGIN_PAGE_URL; //wp_loginout('/welcome-page'); ?>">Member Log in</a>
+						</li>
+				<?php } ?>
+				</ul>
+			</div>
+
 			<!-- Logo -->
 			<div id="logo">
 				<a href="<?php echo home_url(); ?>">
@@ -35,7 +51,7 @@
 				</a>
 			</div>
 			<!-- /Logo -->
-			
+
 			<!-- Nav -->
 			<nav>
 				<?php html5blank_nav(); ?>

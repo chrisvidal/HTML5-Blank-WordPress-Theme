@@ -109,7 +109,7 @@ function conditional_scripts()
 function add_google_analytics()
 {
     $google = "<!-- Optimised Asynchronous Google Analytics -->";
-    $google .= "<script>"; // Change the UA-XXXXXXXX-X to your Account ID
+    $google .= "<script>"; // Change the UA-XXXXXXXX-X UA-35646925-1 to your Account ID
     $google .= "var _gaq=[['_setAccount','UA-XXXXXXXX-X'],['_trackPageview']];
             (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
             g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
@@ -484,13 +484,13 @@ add_shortcode('html5_shortcode_demo_2', 'html5_shortcode_demo_2'); // Place [htm
 // Create 1 Custom Post type for a Demo, called HTML5-Blank
 function create_post_type_html5()
 {
-    register_taxonomy_for_object_type('category', 'html5-blank'); // Register Taxonomies for Category
-    register_taxonomy_for_object_type('post_tag', 'html5-blank');
-    register_post_type('html5-blank', // Register Custom Post Type
+    register_taxonomy_for_object_type('category', 'bissue_category'); // Register Taxonomies for Category
+    register_taxonomy_for_object_type('post_tag', 'bissue_tag');
+    register_post_type('bissue', // Register Custom Post Type
         array(
         'labels' => array(
-            'name' => __('Magazine Issues', 'html5blank'), // Rename these to suit
-            'singular_name' => __('BM Issues', 'html5blank'),
+            'name' => __('Magazine', 'html5blank'), // Rename these to suit
+            'singular_name' => __('Issue', 'html5blank'),
             'add_new' => __('Add New', 'html5blank'),
             'add_new_item' => __('Add New issue', 'html5blank'),
             'edit' => __('Edit', 'html5blank'),
@@ -536,5 +536,46 @@ function html5_shortcode_demo_2($atts, $content = null) // Demo Heading H2 short
 {
     return '<h2>' . $content . '</h2>';
 }
+
+
+/*
+ * ========================================================================
+ *  Some fixes
+ * ========================================================================
+ */
+remove_filter ('the_content',  'wpautop');
+remove_filter ('comment_text', 'wpautop');
+
+// Fixes Shortcodes empty paragraphs
+add_filter('the_content', 'shortcode_empty_paragraph_fix');
+function shortcode_empty_paragraph_fix($content) {   
+    $array = array (
+        '<p>[' => '[', 
+        ']</p>' => ']', 
+        ']<br />' => ']'
+    );
+    $content = strtr($content, $array);
+    return $content;
+}
+
+
+include_once('lib/library.php'); // data type options in the post/edit page.
+
+/*
+ * ========================================================================
+ *  Main Pages id
+ * ========================================================================
+ */
+$bm_pages = array(
+    'home' => 24,
+    'bookazine' => 10,
+    'press' => 13,
+    'inspired' => 72,
+    'involved' => 17,
+    'subscription' => 15,
+    'contact' => 102,
+    'support' => 85,
+    'terms' => 7
+     );
 
 ?>
