@@ -1,5 +1,23 @@
 ### [HTML5 Blank](http://html5blank.com) Changelog
 
+## 1.2.4 (15 October, 2012)
+
+* Custom Comments callback - wp_list_comments('type=comment&callback=html5blankcomments'); editable comments now in functions.php
+* Custom default Gravatar now built in, with demo gravatar.jpg inside the 'img' folder, swap it out
+* Changed date format from the_date to the_time('F j, Y')
+* Changed time format from the_time to the_time('g:i a')
+* Changes above show the exact same when parsed, but have been changed due to the way WordPress works, which only shows one 'Date' for posts created on the same day. [More here](http://codex.wordpress.org/Function_Reference/the_date).
+
+## 1.2.3 (13 October, 2012)
+
+* Responsive Thumbnail support, added a function which removes width and height dynamic attributes from thumbnail
+
+## 1.2.2 (09 October, 2012)
+
+* Modified function - jQuery CDN fallback to get_template_directory_uri() instead of bloginfo('template_url')
+* Add Support for Custom Header
+* Tweaked support for Custom Background, added default color and placeholder background image
+
 ## 1.2.1 (07 October, 2012)
 
 * Custom callback for wp_nav_menu, now in functions.php with html5blank_nav(); in header.php
